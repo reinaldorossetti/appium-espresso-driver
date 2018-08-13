@@ -13,7 +13,7 @@ chai.use(chaiAsPromised);
 
 // TODO: Add missing client features to admc/wd
 
-describe('elementByXPath', function () {
+describe('w3c touch specs', function () {
   this.timeout(MOCHA_TIMEOUT);
 
   let driver;
@@ -73,9 +73,9 @@ describe('elementByXPath', function () {
       const touchActions = [
         {"type": "pointerMove", duration: 1000, x: x + 10, y: y + 10},
         {"type": "pointerDown", "button": 0},
-        {"type": "pointerMove", duration: 1000,  x: x + 10, y: y + 1000},
+        {"type": "pointerMove", duration: 1000,  x: x + 10, y: y + 300},
         {"type": "pause", duration: 1000},
-        {"type": "pointerMove", duration: 1000,  x: x + 1000, y: y + 1000},
+        {"type": "pointerMove", duration: 1000,  x: x + 300, y: y + 300},
         {"type": "pointerCancel", "button": 0},
       ];
       await performTouchAction(touchActions);
@@ -89,14 +89,14 @@ describe('elementByXPath', function () {
       const touchActionOne = [
         {"type": "pointerMove", x: x + 10, y: y + 10},
         {"type": "pointerDown", "button": 0},
-        {"type": "pointerMove", duration: 2000,  x: x + 10, y: y + 1000},
+        {"type": "pointerMove", duration: 2000,  x: x + 10, y: y + 300},
         {"type": "pointerUp", "button": 0},
       ];
 
       const touchActionTwo = [
         {"type": "pointerMove", x: x + 200, y: y + 10},
         {"type": "pointerDown", "button": 0},
-        {"type": "pointerMove", duration: 2000,  x: x + 200, y: y + 1000},
+        {"type": "pointerMove", duration: 2000,  x: x + 200, y: y + 300},
         {"type": "pointerUp", "button": 0},
       ];
       await performTouchAction(touchActionOne, touchActionTwo);
@@ -347,106 +347,6 @@ describe('elementByXPath', function () {
       };
       await request(options);
       await B.delay(1000);
-    });
-  });
-
-  describe('mjsonwp touch actions', function () {
-    describe('multi touch actions', function () {
-      it('should perform single tap/press/longPress actions', async function () {
-        for (let method of ['tap', 'press', 'longPress']) {
-          let action = new wd.TouchAction();
-          const el = await driver.elementByAccessibilityId("Accessibility");
-          let {x, y} = await el.getLocation();
-          action[method]({x: x + 10, y: y + 10});
-          action.release();
-          let multiAction = new wd.MultiAction(driver);
-          multiAction.add(action);
-          multiAction.perform();
-          await driver.elementByAccessibilityId("Accessibility Node Provider").should.eventually.exist;
-          await driver.back();
-        }
-      });
-
-      it('should perform single tap/press/longPress actions on an element', async function () {
-        for (let method of ['tap', 'press', 'longPress']) {
-          let action = new wd.TouchAction();
-          const el = await driver.elementByAccessibilityId("Animation");
-          action[method]({el});
-          action.release();
-          let multiAction = new wd.MultiAction(driver);
-          multiAction.add(action);
-          multiAction.perform();
-          await driver.elementByAccessibilityId("Bouncing Balls").should.eventually.exist;
-          await driver.back();
-        }
-      });
-    });
-
-    describe('touch actions', function () {
-      it('should perform single tap/press/longPress actions', async function () {
-        for (let method of ['tap', 'press', 'longPress']) {
-          let action = new wd.TouchAction(driver);
-          const el = await driver.elementByAccessibilityId("Accessibility");
-          let {x, y} = await el.getLocation();
-          action[method]({x: x + 10, y: y + 10});
-          action.release();
-          action.perform();
-          await driver.elementByAccessibilityId("Accessibility Node Provider").should.eventually.exist;
-          await driver.back();
-        }
-      });
-      it('should perform single tap/press/longPress actions on an element', async function () {
-        for (let method of ['tap', 'press', 'longPress']) {
-          let action = new wd.TouchAction(driver);
-          const el = await driver.elementByAccessibilityId("Animation");
-          action[method]({el});
-          action.release();
-          action.perform();
-          await driver.elementByAccessibilityId("Bouncing Balls").should.eventually.exist;
-          await driver.back();
-        }
-      });
-      it('should perform a scroll event', async function () {
-        await (await driver.elementByAccessibilityId('Views')).click();
-        let action = new wd.TouchAction(driver);
-        const startEl = await driver.elementByAccessibilityId("Gallery");
-        const endEl = await driver.elementByAccessibilityId("Buttons");
-        action.press({el: startEl});
-        action.moveTo({el: endEl});
-        action.release();
-        action.perform();
-        await driver.elementByAccessibilityId("ImageView").should.eventually.exist;
-        await driver.back();
-      });
-      it('should do multiple scrolls on multiple views', async function () {
-        await driver.startActivity({appActivity: '.view.SplitTouchView', appPackage: 'io.appium.android.apis'});
-        let [leftEl, rightEl] = await driver.elementsByClassName('android.widget.ListView');
-        const leftGesture = new wd.TouchAction()
-          .press({element: leftEl})
-          .moveTo({element: leftEl, x: 10, y: 0})
-          .moveTo({element: leftEl, x: 10, y: -25})
-          .moveTo({element: leftEl, x: 10, y: -50})
-          .moveTo({element: leftEl, x: 10, y: -75})
-          .moveTo({element: leftEl, x: 10, y: -100})
-          .moveTo({element: leftEl, x: 10, y: -125})
-          .moveTo({element: leftEl, x: 10, y: -500});
-
-        const rightGesture = new wd.TouchAction()
-          .press({element: rightEl})
-          .moveTo({element: rightEl, x: 10, y: 0})
-          .moveTo({element: rightEl, x: 10, y: -25})
-          .moveTo({element: rightEl, x: 10, y: -50})
-          .moveTo({element: rightEl, x: 10, y: -75})
-          .moveTo({element: rightEl, x: 10, y: -100})
-          .moveTo({element: rightEl, x: 10, y: -125})
-          .moveTo({element: rightEl, x: 10, y: -500});
-
-        const multiAction = new wd.MultiAction();
-        multiAction.add(leftGesture, rightGesture);
-
-        await driver.performMultiAction(multiAction);
-        await B.delay(5000);
-      });
     });
   });
 });
