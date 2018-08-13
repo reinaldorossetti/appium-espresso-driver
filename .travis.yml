@@ -42,6 +42,7 @@ env:
     - TEST=unit START_EMU=0 RECURSIVE="--recursive"
     - TEST=functional
     - TEST=functional/commands
+    - TEST=functional/commands/touch
 before_install:
   - |
     if [ ${START_EMU} = "1" ]; then

@@ -3,9 +3,9 @@ import chaiAsPromised from 'chai-as-promised';
 import wd from 'wd';
 import request from 'request-promise';
 import B from 'bluebird';
-import { HOST, PORT, MOCHA_TIMEOUT } from '../helpers/session';
-import { APIDEMO_CAPS } from '../desired';
-import { startServer } from '../../..';
+import { HOST, PORT, MOCHA_TIMEOUT } from '../../helpers/session';
+import { APIDEMO_CAPS } from '../../desired';
+import { startServer } from '../../../..';
 
 
 chai.should();

@@ -29,22 +29,4 @@ describe('source commands', function () {
       node.should.exist;
     });
   });
-
-  // TODO: where is the app for this?
-  describe.skip('react native app', function () {
-    before(async function () {
-      driver = await initSession(REACT_NATIVE_CAPS);
-    });
-    after(async function () {
-      await deleteSession();
-    });
-
-    it('should get sourceXML with view-tags', async function () {
-      const sourceXML = await driver.source();
-      sourceXML.should.be.a.string;
-      const doc = new DOMParser().parseFromString(sourceXML, 'test/xml');
-      const node = xpath.select('//*[content-desc=Animation]', doc);
-      node.should.exist;
-    });
-  });
 });
