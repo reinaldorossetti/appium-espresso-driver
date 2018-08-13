@@ -3,7 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import { DOMParser } from 'xmldom';
 import xpath from 'xpath';
 import { initSession, deleteSession, MOCHA_TIMEOUT } from '../helpers/session';
-import { APIDEMO_CAPS, REACT_NATIVE_CAPS } from '../desired';
+import { APIDEMO_CAPS } from '../desired';
 
 
 chai.should();
