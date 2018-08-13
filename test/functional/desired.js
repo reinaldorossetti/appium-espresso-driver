@@ -1,4 +1,3 @@
-import path from 'path';
 import gpsdemoApp from 'gps-demo-app';
 const apidemosApp = require.resolve('android-apidemos');
 
