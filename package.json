@@ -85,7 +85,7 @@
     "mocha": "^6.0.0",
     "mocha-junit-reporter": "^1.18.0",
     "pre-commit": "^1.2.2",
-    "sinon": "^7.2.3",
+    "sinon": "7.3.0",
     "wd": "^1.10.3",
     "xmldom": "^0.1.27",
     "xpath": "0.0.27"
